@@ -5,13 +5,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
-import java.time.LocalDate;
-
 import org.springframework.stereotype.Service;
-
 import com.praveen.expportal.models.User;
-
-import io.github.cdimascio.dotenv.Dotenv;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;

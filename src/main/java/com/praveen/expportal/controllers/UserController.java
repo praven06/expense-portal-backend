@@ -146,4 +146,5 @@ public class UserController {
         String token = jwtService.generateToken(user);
         return ResponseEntity.ok(Map.of("token", token));
     }
+
 }

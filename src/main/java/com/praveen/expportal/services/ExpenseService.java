@@ -5,6 +5,9 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.praveen.expportal.models.Departments;
@@ -76,12 +79,20 @@ public class ExpenseService {
         return expenseRepository.findByDepartmentManagerIdAndStatus(managerId, Expenses.Status.PENDING);
     }
     
-    public List<Expenses> getExpensesByEmployeeId(String employeeId) {
-        return expenseRepository.findByEmployeeId(employeeId);
+    public Page<Expenses> getExpensesByEmployeeId(String employeeId, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return expenseRepository.findByEmployeeId(employeeId, pageable);
     }
+
     
     public List<Expenses> getExpensesByDepartmentId(Long deptId) {
         return expenseRepository.findByDepartmentId(deptId);
+    }
+
+    public Page<Expenses> getAllExpenses(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Expenses> pe = expenseRepository.findAll(pageable);
+        return pe;
     }
 
 }

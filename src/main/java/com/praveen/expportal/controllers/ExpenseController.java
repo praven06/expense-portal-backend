@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.praveen.expportal.models.ExpenseCategory;
@@ -23,6 +24,15 @@ public class ExpenseController {
     private ExpenseCategoryService expenseCategoryService;
     @Autowired
     private ExpenseService expenseService;
+
+    @GetMapping("/all")
+    public ResponseEntity<?> getAllExpenses(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        return ResponseEntity.ok(expenseService.getAllExpenses(page, size));
+    }
+
+    
     @PostMapping("/{id}")
     ResponseEntity<?> creatExpenses(@PathVariable Long id,@RequestBody Expenses expense) {
         ExpenseCategory exp = expenseCategoryService.getExpenseCategoryById(id);
@@ -37,7 +47,12 @@ public class ExpenseController {
             return ResponseEntity.badRequest().build();
     }
     @GetMapping("/{employee_id}")
-    ResponseEntity<?> getExpensesByEmployeeId(@PathVariable String employee_id) {
-        return ResponseEntity.ok(expenseService.getExpensesByEmployeeId(employee_id));
+    public ResponseEntity<?> getExpensesByEmployeeId(
+            @PathVariable("employee_id") String employeeId,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+
+        return ResponseEntity.ok(expenseService.getExpensesByEmployeeId(employeeId, page, size));
     }
+    
 }
